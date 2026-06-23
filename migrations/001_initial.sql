@@ -1,0 +1,100 @@
+-- Phase 1: baseline schema.  Auto-applied at app startup via SQLAlchemy
+-- Base.metadata.create_all.  When Phase 2 introduces Alembic, this file
+-- becomes the source of truth and the create_all call goes away.
+
+-- Hand-written here as documentation; the runtime schema is generated from
+-- app/models.py.
+
+-- CREATE TYPE store_kind AS ENUM ('online', 'in_store', 'both', 'manual');
+-- CREATE TYPE hunt_status AS ENUM ('pending', 'running', 'completed', 'failed', 'partial');
+--
+-- CREATE TABLE products (
+--   id           SERIAL PRIMARY KEY,
+--   name         VARCHAR(255) NOT NULL,
+--   brand        VARCHAR(255),
+--   size         VARCHAR(64),
+--   category     VARCHAR(64),
+--   barcode      VARCHAR(32),
+--   off_id       VARCHAR(64),
+--   ingredients  TEXT,
+--   nova_group   INTEGER,
+--   image_url    VARCHAR(1024),
+--   notes        TEXT,
+--   created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+-- CREATE INDEX ix_products_name ON products (name);
+-- CREATE INDEX ix_products_category ON products (category);
+-- CREATE INDEX ix_products_barcode ON products (barcode);
+-- CREATE INDEX ix_products_off_id ON products (off_id);
+--
+-- CREATE TABLE stores (
+--   id              SERIAL PRIMARY KEY,
+--   name            VARCHAR(128) NOT NULL UNIQUE,
+--   kind            store_kind NOT NULL DEFAULT 'in_store',
+--   location_label  VARCHAR(128),
+--   online_url      VARCHAR(1024),
+--   notes           TEXT,
+--   enabled         BOOLEAN NOT NULL DEFAULT TRUE,
+--   created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+--
+-- CREATE TABLE memberships (
+--   id              SERIAL PRIMARY KEY,
+--   store_id        INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+--   programme       VARCHAR(64) NOT NULL,
+--   account_label   VARCHAR(128),
+--   registered_at   TIMESTAMPTZ,
+--   notes           TEXT,
+--   UNIQUE (store_id, programme)
+-- );
+-- CREATE INDEX ix_memberships_store_id ON memberships (store_id);
+--
+-- CREATE TABLE prices (
+--   id            BIGSERIAL PRIMARY KEY,
+--   product_id    INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+--   store_id      INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+--   price         DOUBLE PRECISION NOT NULL,
+--   member_price  DOUBLE PRECISION,
+--   unit_price    DOUBLE PRECISION,
+--   currency      VARCHAR(3) NOT NULL DEFAULT 'EUR',
+--   in_stock      BOOLEAN,
+--   source        VARCHAR(64),
+--   raw           JSONB,
+--   captured_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+-- CREATE INDEX ix_prices_product_id ON prices (product_id);
+-- CREATE INDEX ix_prices_store_id ON prices (store_id);
+-- CREATE INDEX ix_prices_captured_at ON prices (captured_at);
+--
+-- CREATE TABLE receipts (
+--   id          SERIAL PRIMARY KEY,
+--   store_id    INTEGER REFERENCES stores(id) ON DELETE SET NULL,
+--   image_path  VARCHAR(1024) NOT NULL,
+--   captured_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+--   total       DOUBLE PRECISION,
+--   parsed      JSONB,
+--   notes       TEXT
+-- );
+--
+-- CREATE TABLE hunts (
+--   id           SERIAL PRIMARY KEY,
+--   status       hunt_status NOT NULL DEFAULT 'pending',
+--   product_ids  JSONB NOT NULL DEFAULT '[]',
+--   store_ids    JSONB NOT NULL DEFAULT '[]',
+--   results      JSONB,
+--   started_at   TIMESTAMPTZ,
+--   finished_at  TIMESTAMPTZ,
+--   created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
+--
+-- CREATE TABLE watchlist (
+--   id            SERIAL PRIMARY KEY,
+--   product_id    INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+--   store_id      INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+--   target_price  DOUBLE PRECISION NOT NULL,
+--   active        BOOLEAN NOT NULL DEFAULT TRUE,
+--   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+--   UNIQUE (product_id, store_id)
+-- );
+-- CREATE INDEX ix_watchlist_product_id ON watchlist (product_id);
+-- CREATE INDEX ix_watchlist_store_id ON watchlist (store_id);

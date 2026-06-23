@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b5fff">
+  <title>Price Hunter</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E%F0%9F%9B%92%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <h1>
+      <span class="emoji" aria-hidden="true">🛒</span>
+      Price Hunter
+    </h1>
+    <p class="tagline">Dublin Northside · Best price for your basket</p>
+  </header>
+
+  <main>
+    <section class="card status">
+      <h2>Status</h2>
+      <div class="row">
+        <span class="dot dot-green" id="health-dot" aria-hidden="true"></span>
+        <span id="health-text">Checking…</span>
+      </div>
+      <p class="meta" id="version-text"></p>
+    </section>
+
+    <section class="card">
+      <h2>Coming soon</h2>
+      <ul class="phase-list">
+        <li><span class="phase">Phase 1</span> Skeleton <span class="done">✓</span></li>
+        <li><span class="phase">Phase 2</span> Basket · Stores · Memberships</li>
+        <li><span class="phase">Phase 3</span> Tesco IE price pulls</li>
+        <li><span class="phase">Phase 4</span> Dunnes, Lidl, Boots, SuperValu, Aldi</li>
+        <li><span class="phase">Phase 5</span> Brand vs own-brand (Open Food Facts)</li>
+        <li><span class="phase">Phase 6</span> Receipt OCR</li>
+        <li><span class="phase">Phase 7</span> Watchlist + daily digest</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Stores in scope</h2>
+      <p class="meta">Dublin Northside, Ireland</p>
+      <div class="chips">
+        <span class="chip">Tesco</span>
+        <span class="chip">SuperValu</span>
+        <span class="chip">Dunnes</span>
+        <span class="chip">Aldi</span>
+        <span class="chip">Lidl</span>
+        <span class="chip">Londis</span>
+        <span class="chip">Boots</span>
+      </div>
+      <p class="meta">Plus online: Amazon.ie · Boots.ie · yourhealth.ie · halls.ie</p>
+    </section>
+
+    <p class="foot">
+      Phase 1 skeleton · Tailscale-only · <code>100.105.66.115:3016</code>
+    </p>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
