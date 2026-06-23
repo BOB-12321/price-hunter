@@ -29,7 +29,11 @@ services:
       APP_ENV: ${APP_ENV:-development}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       TELEGRAM_HOME_CHAT_ID: ${TELEGRAM_HOME_CHAT_ID:-}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
       OFF_API_URL: ${OFF_API_URL:-https://world.openfoodfacts.org}
+    # Mount .env so ADMIN_TOKEN and other secret-bearing vars are loaded.
+    env_file:
+      - .env
     # Bind on 0.0.0.0 so the Tailscale interface can reach the service.
     # UFW (tailscale0 + port 3016) and the 127.0.0.1 publish in
     # docker-compose.yml are the only access paths — no LAN exposure.

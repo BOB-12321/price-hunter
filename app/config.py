@@ -41,6 +41,11 @@ class Settings(BaseSettings):
     # Open Food Facts
     off_api_url: str = "https://world.openfoodfacts.org"
 
+    # Admin token (X-Seed-Token).  Generated in .env; rotate by replacing it
+    # and restarting the app.  Phase 2 only gates the /api/admin/seed
+    # endpoint; later phases may add more admin surfaces.
+    admin_token: str = ""
+
     @property
     def is_production(self) -> bool:
         return self.app_env.lower() in {"prod", "production"}

@@ -1,9 +1,9 @@
 """FastAPI application entrypoint.
 
 Wires up routers, static file serving, lifecycle events (DB init), and a
-healthcheck endpoint.  Phase 1 only exposes the healthcheck and the
-mobile-first landing page; later phases add /api/products, /api/stores,
-/api/hunts, etc.
+healthcheck endpoint.  Phase 1 ships the healthcheck and the mobile-first
+landing page; Phase 2 adds CRUD for products, stores, memberships, basket,
+and hunts.
 """
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app import __version__
+from app.api import admin, basket, hunts, memberships, products, stores
 from app.config import settings
 from app.db import init_db
 
@@ -82,27 +83,33 @@ async def index() -> FileResponse:
     return FileResponse(str(WEB_DIR / "index.html"))
 
 
-# ---- API routers (placeholder; real routers land in Phase 2) ------------
+# ---- API routers ---------------------------------------------------------
+
+
+app.include_router(products.router)
+app.include_router(stores.router)
+app.include_router(memberships.router)
+app.include_router(basket.router)
+app.include_router(hunts.router)
+app.include_router(admin.router)
 
 
 @app.get("/api", tags=["meta"])
 async def api_root() -> JSONResponse:
-    """Friendly landing for the API.  Real routes appear in Phase 2."""
+    """Friendly landing for the API.  Lists live endpoints for quick exploration."""
     return JSONResponse(
         {
             "service": "price-hunter",
             "version": __version__,
+            "docs": "/docs",
             "endpoints": {
                 "healthz": "/healthz",
                 "ui": "/",
-                "phase2": [
-                    "/api/products",
-                    "/api/stores",
-                    "/api/memberships",
-                    "/api/hunts",
-                    "/api/receipts",
-                    "/api/watchlist",
-                ],
+                "products": "/api/products",
+                "stores": "/api/stores",
+                "memberships": "/api/memberships",
+                "basket": "/api/basket",
+                "hunts": "/api/hunts",
             },
         }
     )

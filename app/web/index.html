@@ -17,48 +17,48 @@
     <p class="tagline">Dublin Northside · Best price for your basket</p>
   </header>
 
-  <main>
-    <section class="card status">
-      <h2>Status</h2>
-      <div class="row">
-        <span class="dot dot-green" id="health-dot" aria-hidden="true"></span>
-        <span id="health-text">Checking…</span>
-      </div>
-      <p class="meta" id="version-text"></p>
-    </section>
-
-    <section class="card">
-      <h2>Coming soon</h2>
-      <ul class="phase-list">
-        <li><span class="phase">Phase 1</span> Skeleton <span class="done">✓</span></li>
-        <li><span class="phase">Phase 2</span> Basket · Stores · Memberships</li>
-        <li><span class="phase">Phase 3</span> Tesco IE price pulls</li>
-        <li><span class="phase">Phase 4</span> Dunnes, Lidl, Boots, SuperValu, Aldi</li>
-        <li><span class="phase">Phase 5</span> Brand vs own-brand (Open Food Facts)</li>
-        <li><span class="phase">Phase 6</span> Receipt OCR</li>
-        <li><span class="phase">Phase 7</span> Watchlist + daily digest</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>Stores in scope</h2>
-      <p class="meta">Dublin Northside, Ireland</p>
-      <div class="chips">
-        <span class="chip">Tesco</span>
-        <span class="chip">SuperValu</span>
-        <span class="chip">Dunnes</span>
-        <span class="chip">Aldi</span>
-        <span class="chip">Lidl</span>
-        <span class="chip">Londis</span>
-        <span class="chip">Boots</span>
-      </div>
-      <p class="meta">Plus online: Amazon.ie · Boots.ie · yourhealth.ie · halls.ie</p>
-    </section>
-
-    <p class="foot">
-      Phase 1 skeleton · Tailscale-only · <code>100.105.66.115:3016</code>
-    </p>
+  <main id="app">
+    <!-- Tab content rendered by app.js -->
+    <div class="loading">Loading…</div>
   </main>
+
+  <nav class="tabbar" role="tablist" aria-label="Main">
+    <button class="tab is-active" data-tab="home" role="tab" aria-selected="true">
+      <span class="tab-icon" aria-hidden="true">🏠</span>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="tab" data-tab="basket" role="tab" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">🧺</span>
+      <span class="tab-label">Basket</span>
+    </button>
+    <button class="tab" data-tab="stores" role="tab" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">🏬</span>
+      <span class="tab-label">Stores</span>
+    </button>
+    <button class="tab" data-tab="hunt" role="tab" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">🎯</span>
+      <span class="tab-label">Hunt</span>
+    </button>
+  </nav>
+
+  <!-- Modal for add/edit forms -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <header class="modal-head">
+        <h2 id="modal-title">Title</h2>
+        <button class="icon-btn" data-close aria-label="Close">✕</button>
+      </header>
+      <div id="modal-body" class="modal-body"></div>
+      <footer class="modal-foot">
+        <button class="btn btn-ghost" data-close>Cancel</button>
+        <button class="btn btn-primary" id="modal-save">Save</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden></div>
 
   <script src="/static/app.js"></script>
 </body>
